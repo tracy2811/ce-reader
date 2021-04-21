@@ -1,0 +1,26 @@
+extends layout 
+
+block content
+  p 
+    a(href="/") Home
+    |  > 
+    a(href=book.url) #{book.title}
+    |  > 
+    a.active(href=chapter.url) #{chapter.title}
+  h1=title
+  div
+    each token in chapter.tokenized_content 
+      if token.dict
+        span.term=token.term 
+          div.dict
+            each d in token.dict
+              p #{d.traditional} 【#{d.simplified}】
+              p=d.pinyin 
+              ol
+                each m in d.meaning 
+                  li=m
+              hr
+      else if token.break
+        br
+      else
+        | #{token.term}

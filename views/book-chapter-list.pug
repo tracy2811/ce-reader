@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+  p 
+    a(href="/") Home
+    |  > 
+    a.active(href=book.url) #{book.title}
+  h1=title 
+  ul 
+    each chapter in chapter_list 
+      li 
+        a(href=chapter.url) #{chapter.title}
+    else 
+      li There is no chapter in #{book.title}
