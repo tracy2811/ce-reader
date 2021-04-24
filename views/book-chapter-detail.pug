@@ -8,19 +8,18 @@ block content
     |  > 
     a.active(href=chapter.url) #{chapter.title}
   h1=title
-  div
-    each token in chapter.tokenized_content 
-      if token.dict
-        span.term=token.term 
-          div.dict
-            each d in token.dict
-              p #{d.traditional} 【#{d.simplified}】
-              p=d.pinyin 
-              ol
-                each m in d.meaning 
-                  li=m
-              hr
-      else if token.break
-        br
-      else
-        | #{token.term}
+  each paragraph in chapter.tokenized_paragraph
+    div
+      each token in paragraph
+        if token.dict
+          span.term=token.term 
+            div.dict
+              each d in token.dict
+                p #{d.traditional} 【#{d.simplified}】
+                p=d.pinyin 
+                ol
+                  each m in d.meaning 
+                    li=m
+                hr
+        else
+          | #{token.term}

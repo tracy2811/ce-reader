@@ -18,7 +18,7 @@ a:hover {
 span.term {
   background-color: antiquewhite;
   cursor: pointer;
-  margin: 0.1em;
+  margin: 0.15em;
   display: inline-block;
   position: relative;
 }
@@ -27,16 +27,20 @@ span.term:hover > div.dict {
   display: inline-block;
 }
 
+div {
+  margin-bottom: 2rem;
+}
+
 div.dict {
   display: none;
   position: absolute;
   left: 0;
-  top: 1em;
+  top: 1.5em;
   z-index: 1;
   background-color: rgba(255, 255, 255, 0.9);
   width: 20em;
   max-height: 20em;
-  padding: 0 1em;
+  padding: 0.5em;
   overflow-y: scroll;
   text-align: justify;
 }

@@ -58,42 +58,49 @@ const simplifiedDict = {};
 })();
 
 const tokenize = async (path) => {
-  const text = await fs.readFile(path, "utf-8");
+  const data = await fs.readFile(path, "utf-8");
 
   const maxLength = Math.max(
     ...Object.keys(traditionalDict).map((key) => key.length)
   );
 
-  let result = [];
-  let start = 0;
+  const tokenizedParagraphs = data
+    .split("\n")
+    .filter((text) => !!text)
+    .map((text) => {
+      let result = [];
+      let start = 0;
 
-  while (start < text.length) {
-    let length = 0;
-    for (let l = 1; l <= maxLength; ++l) {
-      let term = text.slice(start, start + l);
-      if (traditionalDict[term] || simplifiedDict[term]) {
-        length = l;
+      while (start < text.length) {
+        let length = 0;
+        for (let l = 1; l <= maxLength; ++l) {
+          let term = text.slice(start, start + l);
+          if (traditionalDict[term] || simplifiedDict[term]) {
+            length = l;
+          }
+        }
+
+        if (length > 0) {
+          const term = text.slice(start, start + length);
+          const dict = traditionalDict[term]
+            ? traditionalDict[term]
+            : simplifiedDict[term];
+          result.push({
+            term,
+            dict: [...dict],
+          });
+          start += length;
+        } else {
+          result.push({
+            term: text[start],
+          });
+          start++;
+        }
       }
-    }
+      return result;
+    });
 
-    if (length > 0) {
-      const term = text.slice(start, start + length);
-      const dict = traditionalDict[term]
-        ? traditionalDict[term]
-        : simplifiedDict[term];
-      result.push({
-        term,
-        dict: [...dict],
-      });
-      start += length;
-    } else {
-      result.push({
-        term: text[start],
-      });
-      start++;
-    }
-  }
-  return result;
+  return tokenizedParagraphs;
 };
 
 module.exports = { tokenize };

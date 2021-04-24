@@ -16,7 +16,7 @@ const get_book_list = async (req, res, next) => {
 const get_book_chapter_detail = async (req, res, next) => {
   try {
     const { book, chapter } = req.params;
-    const tokenized = await tokenize(
+    const tokenized_paragraph = await tokenize(
       `${__dirname}/../public/books/${book}/${chapter}`
     );
     res.render("book-chapter-detail", {
@@ -28,9 +28,7 @@ const get_book_chapter_detail = async (req, res, next) => {
       chapter: {
         title: chapter,
         url: `/${book}/${chapter}`,
-        tokenized_content: tokenized.map((t) =>
-          t.term == "\n" ? { ...t, break: true } : t
-        ),
+        tokenized_paragraph,
       },
     });
   } catch (error) {
