@@ -16,7 +16,7 @@ To get this project up and running locally on your computer:
 1. Enter the following commands in the root of your clone of this repo:
    ```
    npm install
-   DEBUG=reader:* npm run devstart   #For linux
+   DEBUG=reader:* npm run dev   #For linux
    ```
 1. Open a browser to http://localhost:3000/ and start reading.
 

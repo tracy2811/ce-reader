@@ -21,9 +21,9 @@ block content
               hr
       else
         | #{token.term}
-  each paragraph in chapter.tokenized_paragraph
+  each paragraph, i in chapter.paragraphs
     div
-      each token in paragraph
+      each token in paragraph.content
         if token.dict
           span.term=token.term 
             div.dict
@@ -36,6 +36,27 @@ block content
                 hr
         else
           | #{token.term}
+      button(class=paragraph.saved ? 'saved' : '' data-index=i) #{paragraph.saved? '✔' : '✚'} 
   script. 
-    var chapter = !{JSON.stringify(chapter)}
-    console.log(chapter)
+    document.addEventListener("click", async (e) => {
+      const target = e.target;
+      if (target.tagName.toLowerCase() == "button") {
+        await fetch(`/history`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            book: !{JSON.stringify(book.title)},
+            chapter: !{JSON.stringify(chapter.title)},
+            index: +target.dataset.index,
+          }),
+        });
+        document.querySelectorAll('button').forEach(e => {
+          e.classList.remove("saved");
+          e.textContent = "✚"
+        })
+        target.classList.add("saved");
+        target.textContent = '✔';
+      }
+    });

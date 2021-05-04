@@ -1,5 +1,6 @@
 var fs = require("fs").promises;
 var { tokenizeFile, tokenizeText } = require("../utils/tokenize");
+var { getHistory, saveHistory } = require("../utils/history");
 
 const get_book_list = async (req, res, next) => {
   try {
@@ -21,6 +22,12 @@ const get_book_chapter_detail = async (req, res, next) => {
     );
     const title = `${book} | ${chapter}`;
     const tokenized_title = tokenizeText(title);
+    const history = await getHistory();
+    const paragraphs = tokenized_paragraph.map((p, i) => ({
+      content: p,
+      saved:
+        history[book] && history[book][chapter] && i == history[book][chapter],
+    }));
     res.render("book-chapter-detail", {
       title,
       tokenized_title,
@@ -31,7 +38,7 @@ const get_book_chapter_detail = async (req, res, next) => {
       chapter: {
         title: chapter,
         url: `/${book}/${chapter}`,
-        tokenized_paragraph,
+        paragraphs,
       },
     });
   } catch (error) {
@@ -44,7 +51,6 @@ const get_book_chapter_list = async (req, res, next) => {
     const { book } = req.params;
     const data = await fs.readdir(`${__dirname}/../public/books/${book}`);
     const tokenized_title = tokenizeText(book);
-    console.log(tokenized_title);
     res.render("book-chapter-list", {
       tokenized_title,
       title: book,
@@ -62,8 +68,28 @@ const get_book_chapter_list = async (req, res, next) => {
   }
 };
 
+const put_history = async (req, res, next) => {
+  const history = await getHistory();
+  const { book, chapter, index } = req.body;
+  if (book && chapter && index >= 0) {
+    if (!history[book]) {
+      history[book] = {};
+    }
+    history[book][chapter] = index;
+    try {
+      await saveHistory(history);
+      res.status(200).json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  } else {
+    res.status(400).end();
+  }
+};
+
 module.exports = {
   get_book_list,
   get_book_chapter_detail,
   get_book_chapter_list,
+  put_history,
 };

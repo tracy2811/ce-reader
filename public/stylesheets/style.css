@@ -66,3 +66,25 @@ div.dict p {
 ol {
   margin: 0;
 }
+
+button {
+  border: none;
+  background: none;
+  color: #99c5d6;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: aliceblue;
+  padding: 5px;
+  margin-left: 20px;
+  border-radius: 50%;
+  float: right;
+}
+
+button:hover, button.saved {
+  color: #00b7ff;
+  box-shadow: 0 0 10px #00b7ff;
+}
+
+button.saved {
+  cursor: default;
+}

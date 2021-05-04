@@ -117,7 +117,7 @@ const tokenizeText = (text) => {
 };
 
 const tokenizeFile = async (path) => {
-  const data = await fs.promises.readFile(path, "utf-8");
+  const data = await fs.promises.readFile(path, "utf8");
 
   const tokenizedParagraphs = data
     .split("\n")

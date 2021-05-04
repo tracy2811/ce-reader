@@ -10,5 +10,6 @@ var bookController = require("../controllers/book");
 router.get("/", bookController.get_book_list);
 router.get("/:book", bookController.get_book_chapter_list);
 router.get("/:book/:chapter", bookController.get_book_chapter_detail);
+router.put("/history", bookController.put_history);
 
 module.exports = router;
