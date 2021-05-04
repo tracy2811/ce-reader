@@ -1,24 +1,12 @@
 extends layout 
 
-block content
+block nav
   p 
     a(href="/") Home
     |  > 
     a.active(href=book.url) #{book.title}
-  h1
-    each token in tokenized_title
-      if token.dict
-        span.term=token.term 
-          div.dict
-            each d in token.dict
-              p #{d.traditional} 【#{d.simplified}】
-              p=d.pinyin 
-              ol
-                each m in d.meaning 
-                  li=m
-              hr
-      else
-        | #{token.term}
+    
+block content
   ul 
     each chapter in chapter_list 
       li 

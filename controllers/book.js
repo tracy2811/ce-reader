@@ -5,8 +5,11 @@ var { getHistory, saveHistory } = require("../utils/history");
 const get_book_list = async (req, res, next) => {
   try {
     const data = await fs.readdir(`${__dirname}/../public/books`);
+    const title = "图书馆";
+    const tokenized_title = tokenizeText(title);
     res.render("book-list", {
-      title: "图书馆",
+      title,
+      tokenized_title,
       book_list: data.map((d) => ({ url: `/${d}`, title: d })),
     });
   } catch (error) {

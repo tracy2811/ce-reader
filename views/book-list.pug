@@ -1,9 +1,10 @@
 extends layout
 
-block content
+block nav
   p
     a.active(href='/') Home
-  h1= title
+    
+block content
   ul 
     each book in book_list
       li

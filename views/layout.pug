@@ -4,4 +4,19 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    block nav 
+    h1
+      each token in tokenized_title
+        if token.dict
+          span.term=token.term 
+            div.dict
+              each d in token.dict
+                p #{d.traditional} 【#{d.simplified}】
+                p=d.pinyin 
+                ol
+                  each m in d.meaning 
+                    li=m
+                hr
+        else
+          | #{token.term}
     block content
