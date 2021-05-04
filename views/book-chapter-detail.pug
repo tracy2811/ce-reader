@@ -29,6 +29,7 @@ block content
     document.addEventListener("click", async (e) => {
       const target = e.target;
       if (target.tagName.toLowerCase() == "button") {
+        if (target.classList.contains("saved")) return;
         await fetch(`/history`, {
           method: "PUT",
           headers: {
