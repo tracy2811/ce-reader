@@ -7,7 +7,20 @@ block content
     a(href=book.url) #{book.title}
     |  > 
     a.active(href=chapter.url) #{chapter.title}
-  h1=title
+  h1
+    each token in tokenized_title
+      if token.dict
+        span.term=token.term 
+          div.dict
+            each d in token.dict
+              p #{d.traditional} 【#{d.simplified}】
+              p=d.pinyin 
+              ol
+                each m in d.meaning 
+                  li=m
+              hr
+      else
+        | #{token.term}
   each paragraph in chapter.tokenized_paragraph
     div
       each token in paragraph
@@ -23,3 +36,6 @@ block content
                 hr
         else
           | #{token.term}
+  script. 
+    var chapter = !{JSON.stringify(chapter)}
+    console.log(chapter)

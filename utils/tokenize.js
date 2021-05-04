@@ -1,10 +1,11 @@
-var fs = require("fs").promises;
+var fs = require("fs");
+var nodejieba = require("nodejieba");
 
-const traditionalDict = {};
-const simplifiedDict = {};
+const { traditionalDict, simplifiedDict, maxLength } = (() => {
+  const traditionalDict = {};
+  const simplifiedDict = {};
 
-(async () => {
-  const data = await fs.readFile(
+  const data = fs.readFileSync(
     `${__dirname}/../public/dictionaries/cedict_ts.u8`,
     "utf-8"
   );
@@ -54,53 +55,76 @@ const simplifiedDict = {};
       ];
     }
   });
-  return { traditionalDict, simplifiedDict };
-})();
-
-const tokenize = async (path) => {
-  const data = await fs.readFile(path, "utf-8");
 
   const maxLength = Math.max(
     ...Object.keys(traditionalDict).map((key) => key.length)
   );
 
+  return { traditionalDict, simplifiedDict, maxLength };
+})();
+
+const naiveTokenize = (text) => {
+  let result = [];
+  let start = 0;
+
+  while (start < text.length) {
+    let length = 0;
+    for (let l = 1; l <= maxLength && l <= text.length; ++l) {
+      let term = text.slice(start, start + l);
+      if (traditionalDict[term] || simplifiedDict[term]) {
+        length = l;
+      }
+    }
+    if (length > 0) {
+      const term = text.slice(start, start + length);
+      result.push({
+        term,
+        dict: traditionalDict[term]
+          ? traditionalDict[term]
+          : simplifiedDict[term],
+      });
+      start += length;
+    } else {
+      result.push({ term: text[start] });
+      start++;
+    }
+  }
+  return result;
+};
+
+const tokenizeText = (text) => {
+  const result = nodejieba.cut(text).reduce((acc, term) => {
+    if (traditionalDict[term]) {
+      acc.push({
+        term,
+        dict: traditionalDict[term],
+      });
+    } else if (simplifiedDict[term]) {
+      acc.push({
+        term,
+        dict: simplifiedDict[term],
+      });
+    } else if (term.length == 1) {
+      acc.push({
+        term,
+      });
+    } else {
+      acc = acc.concat(naiveTokenize(term));
+    }
+    return acc;
+  }, []);
+  return result;
+};
+
+const tokenizeFile = async (path) => {
+  const data = await fs.promises.readFile(path, "utf-8");
+
   const tokenizedParagraphs = data
     .split("\n")
     .filter((text) => !!text)
-    .map((text) => {
-      let result = [];
-      let start = 0;
-
-      while (start < text.length) {
-        let length = 0;
-        for (let l = 1; l <= maxLength; ++l) {
-          let term = text.slice(start, start + l);
-          if (traditionalDict[term] || simplifiedDict[term]) {
-            length = l;
-          }
-        }
-
-        if (length > 0) {
-          const term = text.slice(start, start + length);
-          const dict = traditionalDict[term]
-            ? traditionalDict[term]
-            : simplifiedDict[term];
-          result.push({
-            term,
-            dict: [...dict],
-          });
-          start += length;
-        } else {
-          result.push({
-            term: text[start],
-          });
-          start++;
-        }
-      }
-      return result;
-    });
+    .map((text) => tokenizeText(text));
 
   return tokenizedParagraphs;
 };
 
-module.exports = { tokenize };
+module.exports = { tokenizeFile, tokenizeText };

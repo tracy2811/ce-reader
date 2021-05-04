@@ -1,8 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   padding: 50px;
-  font: 32px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
   max-width: 30em;
   margin: auto;
+  letter-spacing: 0.15em;
 }
 
 a {
@@ -16,11 +21,13 @@ a:hover {
 }
 
 span.term {
-  background-color: antiquewhite;
-  cursor: pointer;
-  margin: 0.15em;
   display: inline-block;
   position: relative;
+}
+
+span.term:hover {
+  background-color: antiquewhite;
+  cursor: pointer;
 }
 
 span.term:hover > div.dict {
@@ -37,10 +44,25 @@ div.dict {
   left: 0;
   top: 1.5em;
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0.9);
-  width: 20em;
+  background-color: antiquewhite;
+  width: 15em;
   max-height: 20em;
   padding: 0.5em;
   overflow-y: scroll;
   text-align: justify;
+  letter-spacing: normal;
+}
+
+div.dict * {
+  font-size: 30px;
+  font-weight: normal;
+}
+
+div.dict p {
+  padding: 0;
+  margin: 0;
+}
+
+ol {
+  margin: 0;
 }
