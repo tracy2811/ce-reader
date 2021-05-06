@@ -6,7 +6,7 @@ Enjoy reading your favorite Chinese books without constantly looking up dictiona
 
 The Chinese-English dictionary [CC-CEDICT](https://cc-cedict.org/wiki/start) is used to tokenze text, and create popover translation.
 
-Sample book: [活着](https://www.zanghaihua.org/huozhou/)
+Sample books/stories: [活着](https://www.zanghaihua.org/huozhou/), [成语故事](http://chengyu.t086.com/gushi/)
 
 ## Quick Start
 

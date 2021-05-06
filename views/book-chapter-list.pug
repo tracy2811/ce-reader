@@ -1,10 +1,9 @@
 extends layout 
 
 block nav
-  p 
-    a(href="/") Home
-    |  > 
-    a.active(href=book.url) #{book.title}
+  a(href="/") Home
+  |  > 
+  a.active(href=book.url) #{book.title}
     
 block content
   ul 

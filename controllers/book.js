@@ -20,17 +20,12 @@ const get_book_list = async (req, res, next) => {
 const get_book_chapter_detail = async (req, res, next) => {
   try {
     const { book, chapter } = req.params;
-    const tokenized_paragraph = await tokenizeFile(
+    const paragraphs = await tokenizeFile(
       `${__dirname}/../public/books/${book}/${chapter}`
     );
     const title = `${book} | ${chapter}`;
     const tokenized_title = tokenizeText(title);
     const history = await getHistory();
-    const paragraphs = tokenized_paragraph.map((p, i) => ({
-      content: p,
-      saved:
-        history[book] && history[book][chapter] && i == history[book][chapter],
-    }));
     res.render("book-chapter-detail", {
       title,
       tokenized_title,
@@ -42,6 +37,8 @@ const get_book_chapter_detail = async (req, res, next) => {
         title: chapter,
         url: `/${book}/${chapter}`,
         paragraphs,
+        savedIndex:
+          history[book] && history[book][chapter] ? history[book][chapter] : -1,
       },
     });
   } catch (error) {

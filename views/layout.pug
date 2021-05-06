@@ -3,8 +3,10 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="icon", href="/images/favicon.png", type="image/png")
   body
-    block nav 
+    nav
+      block nav 
     if tokenized_title
       h1
         each token in tokenized_title
@@ -21,3 +23,16 @@ html
           else
             | #{token.term}
     block content
+    script. 
+      const navElement = document.querySelector("nav");
+      let stick = false;
+      const stickEvent = new Event("stick");
+      window.addEventListener("scroll", (e) => {
+        if ((window.scrollY > 0 && !stick) || (window.scrollY == 0 && stick)) {
+          stick = !stick;
+          document.dispatchEvent(stickEvent);
+        }
+      });
+      document.addEventListener("stick", () => {
+        navElement.classList.toggle("stick");
+      });

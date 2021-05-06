@@ -8,6 +8,19 @@ body {
   max-width: 30em;
   margin: auto;
   letter-spacing: 0.15em;
+  background-color: whitesmoke;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: whitesmoke;
+}
+
+nav.stick {
+  padding: 0.2em;
+  box-shadow: 0 0.2em 0.5em rgba(153, 197, 214, 0.5);
 }
 
 a {
@@ -26,7 +39,8 @@ span.term {
 }
 
 span.term:hover {
-  background-color: antiquewhite;
+  background-color: rgba(231, 248, 255, 0.98);
+  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5), -5px -5px 20px rgba(153, 197, 214, 0.5);
   cursor: pointer;
 }
 
@@ -44,7 +58,8 @@ div.dict {
   left: 0;
   top: 1.5em;
   z-index: 1;
-  background-color: antiquewhite;
+  background-color: rgba(231, 248, 255, 0.98);
+  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5), -5px -5px 20px rgba(153, 197, 214, 0.5);
   width: 15em;
   max-height: 20em;
   padding: 0.5em;
@@ -82,7 +97,7 @@ button {
 
 button:hover, button.saved {
   color: #00b7ff;
-  box-shadow: 0 0 10px #00b7ff;
+  box-shadow: 0 0 0.8em rgba(0, 183, 255, 0.5);
 }
 
 button.saved {

@@ -1,17 +1,16 @@
 extends layout 
 
 block nav
-  p 
-    a(href="/") Home
-    |  > 
-    a(href=book.url) #{book.title}
-    |  > 
-    a.active(href=chapter.url) #{chapter.title}
+  a(href="/") Home
+  |  > 
+  a(href=book.url) #{book.title}
+  |  > 
+  a.active(href=chapter.url) #{chapter.title}
     
 block content
   each paragraph, i in chapter.paragraphs
     div
-      each token in paragraph.content
+      each token in paragraph
         if token.dict
           span.term=token.term 
             div.dict
@@ -24,8 +23,15 @@ block content
                 hr
         else
           | #{token.term}
-      button(class=paragraph.saved ? 'saved' : '' data-index=i) #{paragraph.saved? '✔' : '✚'} 
+      if i == chapter.savedIndex
+        button.saved(data-index=i title="You stopped here!") ✔
+      else 
+        button(data-index=i title="Bookmark?") ✚
   script. 
+    const savedElement = document.querySelector(".saved");
+    if (savedElement) {
+      savedElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
     document.addEventListener("click", async (e) => {
       const target = e.target;
       if (target.tagName.toLowerCase() == "button") {
@@ -43,9 +49,11 @@ block content
         });
         document.querySelectorAll('button').forEach(e => {
           e.classList.remove("saved");
-          e.textContent = "✚"
+          e.title = "Bookmark?";
+          e.textContent = "✚";
         })
         target.classList.add("saved");
+        target.title = "You stopped here!";
         target.textContent = '✔';
       }
     });
