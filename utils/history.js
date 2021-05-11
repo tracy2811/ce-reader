@@ -1,22 +1,53 @@
 var fs = require("fs");
 
-const path = `${__dirname}/../public/.history.txt`;
+const historyPath = `${__dirname}/../public/.history.txt`;
+const bookDir = `${__dirname}/../public/books`;
 
-const getHistory = async () => {
+let history = (() => {
   try {
-    const data = await fs.promises.readFile(path, "utf8");
-    const history = JSON.parse(data);
-    return history;
-  } catch (error) {
+    return JSON.parse(fs.readFileSync(historyPath, "utf8"));
+  } catch (err) {
+    console.error(err);
     return {};
   }
+})();
+
+const getHistory = () => history;
+
+const updateHistory = async (book, chapter, index, bookmark) => {
+  if (index < 0) return false;
+  const chapterContent = await fs.promises.readFile(
+    `${bookDir}/${book}/${chapter}`,
+    "utf8"
+  );
+  const length = chapterContent
+    .split("\n")
+    .map((e) => e.trim())
+    .filter((e) => !!e).length;
+
+  if (index < length) {
+    if (bookmark) {
+      if (!history[book]) {
+        history[book] = {};
+      }
+      history[book][chapter] = {
+        bookmark: index,
+        completed: index == length - 1,
+      };
+    } else if (history[book] && history[book][chapter]) {
+      delete history[book][chapter];
+    }
+  } else {
+    return false;
+  }
+  return true;
 };
 
-const saveHistory = async (history) => {
-  await fs.promises.writeFile(path, JSON.stringify(history));
-};
+const saveHistory = async () =>
+  await fs.promises.writeFile(historyPath, JSON.stringify(history));
 
 module.exports = {
-  saveHistory,
+  updateHistory,
   getHistory,
+  saveHistory,
 };

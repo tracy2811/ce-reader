@@ -55,8 +55,6 @@ div {
 div.dict {
   display: none;
   position: absolute;
-  left: 0;
-  top: 1.5em;
   z-index: 1;
   background-color: rgba(231, 248, 255, 0.98);
   box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5), -5px -5px 20px rgba(153, 197, 214, 0.5);
@@ -66,6 +64,26 @@ div.dict {
   overflow-y: scroll;
   text-align: justify;
   letter-spacing: normal;
+}
+
+div.dict-top-left {
+  left: 0;
+  bottom: 0.5em;
+}
+
+div.dict-bottom-left {
+  left: 0;
+  top: 1.5em;
+}
+
+div.dict-top-right {
+  right: 0;
+  bottom: 0.5em;
+}
+
+div.dict-bottom-right {
+  right: 0;
+  top: 1.5em
 }
 
 div.dict * {

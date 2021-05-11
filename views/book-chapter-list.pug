@@ -10,5 +10,7 @@ block content
     each chapter in chapter_list 
       li 
         a(href=chapter.url) #{chapter.title}
+        if chapter.completed
+          span(title="You completed this chapter!") ✔
     else 
       li There is no chapter in #{book.title}

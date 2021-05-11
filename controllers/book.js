@@ -1,6 +1,6 @@
 var fs = require("fs").promises;
 var { tokenizeFile, tokenizeText } = require("../utils/tokenize");
-var { getHistory, saveHistory } = require("../utils/history");
+var { getHistory, updateHistory, saveHistory } = require("../utils/history");
 
 const get_book_list = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ const get_book_chapter_detail = async (req, res, next) => {
     );
     const title = `${book} | ${chapter}`;
     const tokenized_title = tokenizeText(title);
-    const history = await getHistory();
+    const history = getHistory();
     res.render("book-chapter-detail", {
       title,
       tokenized_title,
@@ -37,8 +37,9 @@ const get_book_chapter_detail = async (req, res, next) => {
         title: chapter,
         url: `/${book}/${chapter}`,
         paragraphs,
-        savedIndex:
-          history[book] && history[book][chapter] ? history[book][chapter] : -1,
+        completed: history[book] && history[book][chapter] ? history[book][chapter].completed : false,
+        bookmark:
+          history[book] && history[book][chapter] ? history[book][chapter].bookmark : -1,
       },
     });
   } catch (error) {
@@ -50,6 +51,7 @@ const get_book_chapter_list = async (req, res, next) => {
   try {
     const { book } = req.params;
     const data = await fs.readdir(`${__dirname}/../public/books/${book}`);
+    const history = getHistory();
     const tokenized_title = tokenizeText(book);
     res.render("book-chapter-list", {
       tokenized_title,
@@ -61,6 +63,7 @@ const get_book_chapter_list = async (req, res, next) => {
       chapter_list: data.map((d) => ({
         url: `/${book}/${d}`,
         title: d,
+        completed: history[book] && history[book][d] ? history[book][d].completed : false,
       })),
     });
   } catch (error) {
@@ -69,20 +72,24 @@ const get_book_chapter_list = async (req, res, next) => {
 };
 
 const put_history = async (req, res, next) => {
-  const history = await getHistory();
-  const { book, chapter, index } = req.body;
-  if (book && chapter && index >= 0) {
-    if (!history[book]) {
-      history[book] = {};
+  const { book, chapter, index, bookmark } = req.body;
+  if (!book || !chapter || index < 0 || bookmark == undefined) {
+    res.status(400).end();
+    return;
+  }
+  try {
+    const updated = await updateHistory(book, chapter, index, bookmark);
+    if (!updated) {
+      res.status(400).end();
+      return;
     }
-    history[book][chapter] = index;
     try {
-      await saveHistory(history);
-      res.status(200).json(history);
+      await saveHistory();
+      res.status(200).json(getHistory());
     } catch (err) {
       res.status(500).end();
     }
-  } else {
+  } catch (err) {
     res.status(400).end();
   }
 };

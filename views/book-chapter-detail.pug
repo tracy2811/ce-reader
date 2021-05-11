@@ -23,7 +23,7 @@ block content
                 hr
         else
           | #{token.term}
-      if i == chapter.savedIndex
+      if i == chapter.bookmark
         button.saved(data-index=i title="You stopped here!") ✔
       else 
         button(data-index=i title="Bookmark?") ✚
@@ -32,11 +32,20 @@ block content
     if (savedElement) {
       savedElement.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
+
+    document.querySelectorAll(".term").forEach(e => {
+      if (e.getBoundingClientRect().x < window.innerWidth / 2) {
+        e.children[0].classList.add("dict-bottom-left");
+      } else {
+        e.children[0].classList.add("dict-bottom-right");
+      }
+    })
+
     document.addEventListener("click", async (e) => {
       const target = e.target;
       if (target.tagName.toLowerCase() == "button") {
-        if (target.classList.contains("saved")) return;
-        await fetch(`/history`, {
+        const bookmark = !target.classList.contains("saved");
+        const res = await fetch(`/history`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -45,15 +54,21 @@ block content
             book: !{JSON.stringify(book.title)},
             chapter: !{JSON.stringify(chapter.title)},
             index: +target.dataset.index,
+            bookmark
           }),
         });
-        document.querySelectorAll('button').forEach(e => {
-          e.classList.remove("saved");
-          e.title = "Bookmark?";
-          e.textContent = "✚";
-        })
-        target.classList.add("saved");
-        target.title = "You stopped here!";
-        target.textContent = '✔';
+        if (res.ok) {
+          const preSavedButton = document.querySelector('button.saved');
+          if (preSavedButton) {
+            preSavedButton.classList.toggle("saved");
+            preSavedButton.title = "Bookmark?";
+            preSavedButton.textContent = "✚";
+          }
+          if (bookmark) {
+            target.classList.add("saved");
+            target.title = "You stopped here!";
+            target.textContent = '✔';
+          }
+        }
       }
     });
