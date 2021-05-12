@@ -19,12 +19,6 @@ body {
   background-color: whitesmoke;
 }
 
-@media (width <= 30em) {
-  body {
-    max-width: 100%;
-  }
-}
-
 h1 {
   font-size: 3rem;
   font-weight: bold;
@@ -63,11 +57,14 @@ form button {
   float: none;
 }
 
-form ul li input, form ul li textarea, form ul li button {
+form ul li input,
+form ul li textarea,
+form ul li button {
   border: #00b7ff 1px solid;
 }
 
-form ul li input:focus, form ul li textarea:focus {
+form ul li input:focus,
+form ul li textarea:focus {
   outline: none;
   box-shadow: 0 0 0.8em rgba(0, 183, 255, 0.5);
 }
@@ -147,8 +144,8 @@ div.dict {
   background-color: rgba(231, 248, 255, 0.98);
   box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5),
     -5px -5px 20px rgba(153, 197, 214, 0.5);
-  width: 25rem;
-  max-height: 20rem;
+  width: 20 rem;
+  max-height: 15rem;
   padding: 0.5em;
   overflow-y: scroll;
   text-align: justify;
@@ -176,7 +173,7 @@ div.dict-bottom-right {
 }
 
 div.dict * {
-  font-size: 30px;
+  font-size: 1.4rem;
   font-weight: normal;
 }
 
@@ -216,7 +213,8 @@ button.saved {
   cursor: default;
 }
 
-.error, .danger {
+.error,
+.danger {
   color: darkred;
 }
 
@@ -228,4 +226,10 @@ button.saved {
 .actions > * {
   margin-right: 1em;
   font-size: 1.3rem;
+}
+
+@media (width <= 30em) {
+  body {
+    max-width: 100%;
+  }
 }
