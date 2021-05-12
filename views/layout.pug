@@ -22,6 +22,8 @@ html
                   hr
           else
             | #{token.term}
+    else 
+      h1=title
     block content
     script. 
       const navElement = document.querySelector("nav");

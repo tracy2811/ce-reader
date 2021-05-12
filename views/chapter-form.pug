@@ -1,0 +1,23 @@
+extends layout 
+
+block nav
+  a(href="/") Home
+  |  > 
+  a(href=book.url) #{book.title}
+  |  > 
+  a.active(href=`${book.url}/create-chapter`) Create Chapter
+    
+block content
+  form(method='post' action='')
+    ul 
+      if error 
+        li
+          p.error=error
+      li
+        label(for="title") Chapter Title
+        input#title(type="text", name="title", required, placeholder="New Chapter Name")
+      li
+        label(for="content") Chapter Content
+        textarea#content(name="content", cols="30", rows="10", required, placeholder="New Chapter Content...")
+      li
+        button(type="submit") Create

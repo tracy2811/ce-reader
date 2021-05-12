@@ -1,0 +1,18 @@
+extends layout 
+
+block nav
+  a(href="/") Home
+  |  > 
+  a.active(href="/create-book") Create Book
+    
+block content
+  form(method='post' action='')
+    ul 
+      if error 
+        li
+          p.error=error
+      li 
+        label(for="title") Book Title
+        input#title(type="text", name="title", required, placeholder="New Book Name")
+      li
+        button(type="submit") Create

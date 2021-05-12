@@ -4,9 +4,11 @@ block nav
   a.active(href='/') Home
     
 block content
+  div.actions
+    a(href="/create-book") Create Book 
   ul 
     each book in book_list
       li
         a(href=book.url) #{book.title}
-    else 
-      li There is no books.
+  if book_list.length <= 0
+    p There is no book.

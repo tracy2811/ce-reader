@@ -1,14 +1,86 @@
 * {
   box-sizing: border-box;
+  overflow-wrap: break-word;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.15em;
+}
+
+html {
+  height: 100%;
 }
 
 body {
   padding: 50px;
   font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
   max-width: 30em;
+  min-height: 100%;
   margin: auto;
   letter-spacing: 0.15em;
   background-color: whitesmoke;
+}
+
+form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+form li > * {
+  display: block;
+  width: 100%;
+  padding: 0.4em;
+  border: none;
+  border-radius: 10px;
+  font-size: inherit;
+}
+
+form li + li {
+  margin-top: 1em;
+}
+
+form li textarea {
+  height: 20em;
+}
+
+form button {
+  border: none;
+  background: none;
+  color: whitesmoke;
+  cursor: pointer;
+  background-color: #00b7ff;
+  margin: 0;
+  float: none;
+}
+
+form ul li input, form ul li textarea, form ul li button {
+  border: #00b7ff 1px solid;
+}
+
+form ul li input:focus, form ul li textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0.8em rgba(0, 183, 255, 0.5);
+}
+
+form .btn-danger {
+  background-color: darkred;
+  border: darkred 1px solid;
+}
+
+form button:hover {
+  color: #00b7ff;
+  background-color: whitesmoke;
+  box-shadow: 0 0 0.8em rgba(0, 183, 255, 0.5);
+}
+
+form .btn-danger:hover {
+  color: darkred;
+  background-color: whitesmoke;
+  box-shadow: 0 0 0.8em rgba(139, 0, 0, 0.5);
+}
+
+::placeholder {
+  color: #99c5d6;
+  font-size: 1rem;
 }
 
 nav {
@@ -40,7 +112,8 @@ span.term {
 
 span.term:hover {
   background-color: rgba(231, 248, 255, 0.98);
-  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5), -5px -5px 20px rgba(153, 197, 214, 0.5);
+  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5),
+    -5px -5px 20px rgba(153, 197, 214, 0.5);
   cursor: pointer;
 }
 
@@ -57,9 +130,10 @@ div.dict {
   position: absolute;
   z-index: 1;
   background-color: rgba(231, 248, 255, 0.98);
-  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5), -5px -5px 20px rgba(153, 197, 214, 0.5);
-  width: 15em;
-  max-height: 20em;
+  box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5),
+    -5px -5px 20px rgba(153, 197, 214, 0.5);
+  width: 25rem;
+  max-height: 20rem;
   padding: 0.5em;
   overflow-y: scroll;
   text-align: justify;
@@ -83,7 +157,7 @@ div.dict-top-right {
 
 div.dict-bottom-right {
   right: 0;
-  top: 1.5em
+  top: 1.5em;
 }
 
 div.dict * {
@@ -113,11 +187,26 @@ button {
   float: right;
 }
 
-button:hover, button.saved {
+button:hover,
+button.saved {
   color: #00b7ff;
   box-shadow: 0 0 0.8em rgba(0, 183, 255, 0.5);
 }
 
 button.saved {
   cursor: default;
+}
+
+.error, .danger {
+  color: darkred;
+}
+
+.actions {
+  display: flex;
+  justify-content: right;
+}
+
+.actions > * {
+  margin-right: 1em;
+  font-size: 1.4rem;
 }

@@ -8,6 +8,8 @@ block nav
   a.active(href=chapter.url) #{chapter.title}
     
 block content
+  div.actions
+    a.danger(href=`${chapter.url}/delete`) Delete Chapter
   each paragraph, i in chapter.paragraphs
     div
       each token in paragraph
@@ -34,11 +36,10 @@ block content
     }
 
     document.querySelectorAll(".term").forEach(e => {
-      if (e.getBoundingClientRect().x < window.innerWidth / 2) {
-        e.children[0].classList.add("dict-bottom-left");
-      } else {
-        e.children[0].classList.add("dict-bottom-right");
-      }
+      const left = e.getBoundingClientRect().x < window.innerWidth / 2;
+      const bottom = (e.offsetParent.offsetHeight - e.offsetTop) > (window.innerHeight) / 2;
+      const className = `dict-${bottom? "bottom" : "top"}-${left? "left" : "right"}`;
+      e.children[0].classList.add(className);
     })
 
     document.addEventListener("click", async (e) => {

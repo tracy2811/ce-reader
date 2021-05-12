@@ -1,0 +1,19 @@
+extends layout 
+
+block nav
+  a(href="/") Home
+  |  > 
+  a.active(href=book.url) #{book.title}
+    
+block content
+  div.actions
+    a.danger(href=`${book.url}/delete`) Delete Book
+    a(href=`${book.url}/create-chapter`) Create Chapter
+  ul 
+    each chapter in chapter_list
+        li 
+          a(href=chapter.url) #{chapter.title}
+          if chapter.completed
+            span(title="You completed this chapter!") ✔
+  if chapter_list.length <= 0
+    p There is no chapter.

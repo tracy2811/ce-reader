@@ -1,0 +1,20 @@
+extends layout 
+
+block nav
+  a(href="/") Home
+  |  > 
+  a(href=book.url) #{book.title}
+  |  > 
+  a.active(href=`${book.url}/delete`) Delete
+    
+block content
+  form(method='post' action='')
+    ul 
+      li #{book.title} has 
+        if chapter_list.length >= 2
+          | #{chapter_list.length} chapters. 
+        else 
+          | #{chapter_list.length} chapter. 
+      li Do you want to delete?
+      li
+        button.btn-danger(type="submit") Delete
