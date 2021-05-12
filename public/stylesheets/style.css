@@ -19,6 +19,11 @@ body {
   background-color: whitesmoke;
 }
 
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
 form ul {
   list-style: none;
   padding: 0;
@@ -95,6 +100,10 @@ nav.stick {
   box-shadow: 0 0.2em 0.5em rgba(153, 197, 214, 0.5);
 }
 
+nav * {
+  font-size: 1.4rem;
+}
+
 a {
   color: #00b7ff;
   text-decoration: none;
@@ -121,8 +130,8 @@ span.term:hover > div.dict {
   display: inline-block;
 }
 
-div {
-  margin-bottom: 2rem;
+body > * + * {
+  margin-top: 2rem;
 }
 
 div.dict {
@@ -142,7 +151,7 @@ div.dict {
 
 div.dict-top-left {
   left: 0;
-  bottom: 0.5em;
+  bottom: 1.5em;
 }
 
 div.dict-bottom-left {
@@ -152,7 +161,7 @@ div.dict-bottom-left {
 
 div.dict-top-right {
   right: 0;
-  bottom: 0.5em;
+  bottom: 1.5em;
 }
 
 div.dict-bottom-right {
@@ -168,6 +177,10 @@ div.dict * {
 div.dict p {
   padding: 0;
   margin: 0;
+}
+
+div.dict ol {
+  list-style: decimal;
 }
 
 ol {
@@ -208,5 +221,5 @@ button.saved {
 
 .actions > * {
   margin-right: 1em;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
