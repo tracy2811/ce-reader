@@ -144,7 +144,7 @@ div.dict {
   background-color: rgba(231, 248, 255, 0.98);
   box-shadow: 5px 5px 20px rgba(153, 197, 214, 0.5),
     -5px -5px 20px rgba(153, 197, 214, 0.5);
-  width: 20 rem;
+  width: 25rem;
   max-height: 15rem;
   padding: 0.5em;
   overflow-y: scroll;
